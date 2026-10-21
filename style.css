@@ -384,3 +384,5 @@ h1 span { color: var(--sage); }
   .contact::after { background: linear-gradient(90deg, #dfe1cf, rgb(223 225 207 / 75%)); }
   .contact-details { border: 0; padding: 0; }
 }
+
+.hero .button-row { margin-bottom: 24px; }
