@@ -81,21 +81,21 @@ window.addEventListener("load", updateActiveNavigation);
 updateActiveNavigation();
 
 const services = {
-  nutrition: {
-    title: "Nutrition & health coaching",
-    description: "Build a balanced approach to eating with personalized nutrition guidance and everyday habits that fit your life. Connect with Ylana to discuss your goals and find a starting point that feels achievable."
+  "nutrition": {
+    "title": "Nutrition coaching",
+    "description": "Move beyond the cycle of dieting, second-guessing, and starting over. Learn how to build satisfying meals, understand your nutritional needs, and make choices that support your energy, weight goals, and long-term health. We’ll work with your family meals, schedule, and preferences so that eating well becomes a skill you can rely on—and model for your children."
   },
-  training: {
-    title: "Personal training",
-    description: "Explore one-to-one training shaped around your goals, experience, and daily routine. Contact Ylana to talk about building strength, moving with confidence, and creating a consistent practice."
+  "training": {
+    "title": "1-on-1 personal training",
+    "description": "Feel more capable carrying your children, climbing stairs, and moving through a demanding day. Personalized training meets you at your current fitness level and helps you build strength, improve fitness, and grow more confident in your movement. We’ll find a pace that challenges you appropriately and fits your capacity to recover, so consistency feels achievable."
   },
-  fitness: {
-    title: "Group fitness, Zumba & Pilates",
-    description: "Bring energy and connection to your movement routine with supportive group classes. Ask Ylana about current class formats, schedules, locations, and availability."
+  "fitness": {
+    "title": "Small group fitness",
+    "description": "Build fitness alongside women who understand the demands of a full life. Small group sessions bring encouragement, connection, and shared momentum to your routine. Through strength-focused movement and classes such as Zumba and Pilates, you can explore ways to feel stronger, more coordinated, and more at home in your body."
   },
-  skincare: {
-    title: "Clean skincare & supplements",
-    description: "Explore Ylana’s curated skincare and wellness picks. Get in touch for product information, current availability, and help finding options that fit your everyday routine."
+  "mindbody": {
+    "title": "Mind-body healing",
+    "description": "When you spend much of your day responding to everyone else, it can be difficult to notice what you need. Mind-body sessions offer space to explore the emotional patterns, stress, and expectations that shape how you care for yourself. Through guided reflection and grounding practices, we’ll support greater self-awareness and a deeper connection with your body, values, and spiritual well-being."
   }
 };
 
@@ -110,7 +110,7 @@ document.querySelectorAll("[data-service]").forEach((link) => {
     serviceTrigger = link;
     document.querySelector("#dialog-title").textContent = service.title;
     document.querySelector("#dialog-description").textContent = service.description;
-    document.querySelector("#dialog-book").href = `mailto:info@ylanawellness.com?subject=${encodeURIComponent(service.title)}`;
+    document.querySelector("#dialog-book").href = `mailto:info@ylanawellness.com?subject=${encodeURIComponent("Consultation: " + service.title)}`;
     dialog.showModal();
     document.body.classList.add("modal-open");
   });
@@ -125,3 +125,4 @@ dialog.addEventListener("close", () => {
   document.body.classList.remove("modal-open");
   if (serviceTrigger) serviceTrigger.focus();
 });
+
