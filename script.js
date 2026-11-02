@@ -128,54 +128,80 @@ dialog.addEventListener("close", () => {
 
 
 
-// Testimonials: native swipe/scroll, keyboard navigation, and optional rotation.
+// Compact, continuous testimonials ticker with native touch scrolling.
 (() => {
   const carousel = document.querySelector(".testimonial-carousel");
   if (!carousel) return;
   const track = carousel.querySelector(".testimonial-track");
   const slides = [...track.querySelectorAll(".testimonial-card")];
-  const controls = carousel.querySelector(".testimonial-controls");
   const toggle = carousel.querySelector(".testimonial-toggle");
-  const count = carousel.querySelector(".testimonial-count");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let playing = !reducedMotion.matches;
   let visible = false;
-  let index = 0;
-  let timer;
-  controls.hidden = false;
+  let previousTime = 0;
+  let frame = 0;
+  let position = track.scrollLeft;
+  let cycleWidth = 0;
 
+  // A second, non-interactive copy makes the visual loop seamless.
+  const copies = slides.map(slide => {
+    const copy = slide.cloneNode(true);
+    copy.setAttribute("aria-hidden", "true");
+    copy.removeAttribute("aria-label");
+    copy.inert = true;
+    track.append(copy);
+    return copy;
+  });
+  function measure() {
+    cycleWidth = copies[0].offsetLeft - slides[0].offsetLeft;
+    position = track.scrollLeft;
+  }
+  new ResizeObserver(measure).observe(track);
+  measure();
+  carousel.querySelector(".testimonial-controls").hidden = false;
+
+  function shouldRun() {
+    return playing && visible && !document.hidden &&
+      !carousel.matches(":hover") && !carousel.contains(document.activeElement);
+  }
+  function tick(time) {
+    if (!shouldRun()) { frame = 0; previousTime = 0; return; }
+    if (previousTime && cycleWidth) {
+      position += Math.min(time - previousTime, 50) * 0.022;
+      if (position >= cycleWidth) position -= cycleWidth;
+      track.scrollLeft = position;
+    }
+    previousTime = time;
+    frame = requestAnimationFrame(tick);
+  }
+  function schedule() {
+    if (!shouldRun()) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      previousTime = 0;
+    } else if (!frame) {
+      position = track.scrollLeft;
+      frame = requestAnimationFrame(tick);
+    }
+  }
   function updateToggle() {
-    toggle.textContent = playing ? "Pause automatic cycling" : "Start automatic cycling";
-    track.setAttribute("aria-live", playing ? "off" : "polite");
+    toggle.textContent = playing ? "Pause scrolling" : "Start scrolling";
   }
   function stop() {
     playing = false;
-    clearTimeout(timer);
     updateToggle();
+    schedule();
   }
-  function schedule() {
-    clearTimeout(timer);
-    if (!playing || !visible || document.hidden ||
-        carousel.matches(":hover") || carousel.contains(document.activeElement)) return;
-    // Leave enough time to read even the longest testimonial.
-    timer = setTimeout(() => {
-      go(index + 1);
-      schedule();
-    }, 15000);
-  }
-  function go(next) {
-    index = (next + slides.length) % slides.length;
-    track.scrollTo({
-      left: slides[index].offsetLeft - slides[0].offsetLeft,
-      behavior: reducedMotion.matches ? "instant" : "smooth"
-    });
-  }
-  function manualStep(delta) {
+  function step(direction) {
     stop();
-    go(index + delta);
+    const distance = slides[1].offsetLeft - slides[0].offsetLeft;
+    let target = track.scrollLeft + direction * distance;
+    if (target < 0) target += cycleWidth;
+    if (target >= cycleWidth) target -= cycleWidth;
+    track.scrollTo({ left: target, behavior: reducedMotion.matches ? "instant" : "smooth" });
   }
-  carousel.querySelector(".testimonial-prev").addEventListener("click", () => manualStep(-1));
-  carousel.querySelector(".testimonial-next").addEventListener("click", () => manualStep(1));
+  carousel.querySelector(".testimonial-prev").addEventListener("click", () => step(-1));
+  carousel.querySelector(".testimonial-next").addEventListener("click", () => step(1));
   toggle.addEventListener("click", () => {
     playing = !playing;
     updateToggle();
@@ -184,21 +210,14 @@ dialog.addEventListener("close", () => {
   track.addEventListener("keydown", event => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
-      manualStep(event.key === "ArrowLeft" ? -1 : 1);
+      step(event.key === "ArrowLeft" ? -1 : 1);
     }
   });
   track.addEventListener("pointerdown", stop);
   track.addEventListener("wheel", stop, { passive: true });
-  track.addEventListener("scroll", () => {
-    const first = slides[0].offsetLeft;
-    index = slides.reduce((best, slide, i) =>
-      Math.abs(slide.offsetLeft - first - track.scrollLeft) <
-      Math.abs(slides[best].offsetLeft - first - track.scrollLeft) ? i : best, 0);
-    count.textContent = (index + 1) + " / " + slides.length;
-  }, { passive: true });
-  carousel.addEventListener("mouseenter", () => clearTimeout(timer));
+  carousel.addEventListener("mouseenter", schedule);
   carousel.addEventListener("mouseleave", schedule);
-  carousel.addEventListener("focusin", () => clearTimeout(timer));
+  carousel.addEventListener("focusin", schedule);
   carousel.addEventListener("focusout", () => requestAnimationFrame(schedule));
   document.addEventListener("visibilitychange", schedule);
   reducedMotion.addEventListener("change", () => {
@@ -207,6 +226,6 @@ dialog.addEventListener("close", () => {
   new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
     schedule();
-  }, { threshold: 0.25 }).observe(carousel);
+  }, { threshold: 0.1 }).observe(carousel);
   updateToggle();
 })();
