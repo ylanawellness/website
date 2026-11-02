@@ -126,3 +126,87 @@ dialog.addEventListener("close", () => {
   if (serviceTrigger) serviceTrigger.focus();
 });
 
+
+
+// Testimonials: native swipe/scroll, keyboard navigation, and optional rotation.
+(() => {
+  const carousel = document.querySelector(".testimonial-carousel");
+  if (!carousel) return;
+  const track = carousel.querySelector(".testimonial-track");
+  const slides = [...track.querySelectorAll(".testimonial-card")];
+  const controls = carousel.querySelector(".testimonial-controls");
+  const toggle = carousel.querySelector(".testimonial-toggle");
+  const count = carousel.querySelector(".testimonial-count");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let playing = !reducedMotion.matches;
+  let visible = false;
+  let index = 0;
+  let timer;
+  controls.hidden = false;
+
+  function updateToggle() {
+    toggle.textContent = playing ? "Pause automatic cycling" : "Start automatic cycling";
+    track.setAttribute("aria-live", playing ? "off" : "polite");
+  }
+  function stop() {
+    playing = false;
+    clearTimeout(timer);
+    updateToggle();
+  }
+  function schedule() {
+    clearTimeout(timer);
+    if (!playing || !visible || document.hidden ||
+        carousel.matches(":hover") || carousel.contains(document.activeElement)) return;
+    // Leave enough time to read even the longest testimonial.
+    timer = setTimeout(() => {
+      go(index + 1);
+      schedule();
+    }, 15000);
+  }
+  function go(next) {
+    index = (next + slides.length) % slides.length;
+    track.scrollTo({
+      left: slides[index].offsetLeft - slides[0].offsetLeft,
+      behavior: reducedMotion.matches ? "instant" : "smooth"
+    });
+  }
+  function manualStep(delta) {
+    stop();
+    go(index + delta);
+  }
+  carousel.querySelector(".testimonial-prev").addEventListener("click", () => manualStep(-1));
+  carousel.querySelector(".testimonial-next").addEventListener("click", () => manualStep(1));
+  toggle.addEventListener("click", () => {
+    playing = !playing;
+    updateToggle();
+    schedule();
+  });
+  track.addEventListener("keydown", event => {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      manualStep(event.key === "ArrowLeft" ? -1 : 1);
+    }
+  });
+  track.addEventListener("pointerdown", stop);
+  track.addEventListener("wheel", stop, { passive: true });
+  track.addEventListener("scroll", () => {
+    const first = slides[0].offsetLeft;
+    index = slides.reduce((best, slide, i) =>
+      Math.abs(slide.offsetLeft - first - track.scrollLeft) <
+      Math.abs(slides[best].offsetLeft - first - track.scrollLeft) ? i : best, 0);
+    count.textContent = (index + 1) + " / " + slides.length;
+  }, { passive: true });
+  carousel.addEventListener("mouseenter", () => clearTimeout(timer));
+  carousel.addEventListener("mouseleave", schedule);
+  carousel.addEventListener("focusin", () => clearTimeout(timer));
+  carousel.addEventListener("focusout", () => requestAnimationFrame(schedule));
+  document.addEventListener("visibilitychange", schedule);
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) stop();
+  });
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    schedule();
+  }, { threshold: 0.25 }).observe(carousel);
+  updateToggle();
+})();

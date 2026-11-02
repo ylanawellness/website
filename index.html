@@ -166,15 +166,74 @@
       </div>
     </section>
 
-    <section class="testimonials section-pad" aria-labelledby="testimonials-title">
+    <section class="testimonials section-pad" aria-labelledby="testimonials-title" aria-roledescription="carousel">
       <svg class="testimonial-branch branch-left" aria-hidden="true"><use href="#botanical"/></svg>
       <svg class="testimonial-branch branch-right" aria-hidden="true"><use href="#botanical"/></svg>
       <div class="container">
         <h2 class="eyebrow" id="testimonials-title">What clients are saying</h2>
-        <div class="testimonial-grid">
-          <figure class="testimonial-card"><span class="quote-mark" aria-hidden="true">“</span><blockquote><p>Ylana’s guidance transformed the way I eat, move, and care for myself. I have more energy, confidence, and feel better than I ever have!</p></blockquote><figcaption>— Marie L.</figcaption><span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span></figure>
-          <figure class="testimonial-card"><span class="quote-mark" aria-hidden="true">“</span><blockquote><p>The workouts are empowering and fun, and her support is exactly what I needed to stay consistent and see results.</p></blockquote><figcaption>— Jessica R.</figcaption><span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span></figure>
-          <figure class="testimonial-card"><span class="quote-mark" aria-hidden="true">“</span><blockquote><p>The skincare and supplements she recommends are clean, effective, and truly make a difference.</p></blockquote><figcaption>— Nadia S.</figcaption><span class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</span></figure>
+        <p class="testimonial-intro">Real experiences. Lasting strength. A little more room for you.</p>
+        <div class="testimonial-carousel">
+          <div class="testimonial-controls" hidden>
+            <button type="button" class="testimonial-toggle" aria-controls="testimonial-track">Pause automatic cycling</button>
+            <div class="testimonial-navigation">
+              <button type="button" class="testimonial-prev" aria-label="Previous testimonial" aria-controls="testimonial-track">←</button>
+              <span class="testimonial-count" aria-live="off">1 / 10</span>
+              <button type="button" class="testimonial-next" aria-label="Next testimonial" aria-controls="testimonial-track">→</button>
+            </div>
+          </div>
+          <div class="testimonial-track" id="testimonial-track" tabindex="0" aria-label="Client testimonials. Swipe or use the left and right arrow keys." aria-live="off">
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="1 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Ylana worked me up from beginner to advanced. She taught me everything from scratch in the past 7 years. Her workouts are vigorous, invigorating and well varied . The highlight of my week.</p></blockquote>
+            <figcaption>— Chaya H</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="2 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Every training session is a new surprise- never repetitive, always fun, and you never know what to expect! What makes her truly unique is that she looks beyond strength training and takes your whole body, lifestyle and personal goals into consideration, offering practical health tips and personalized nutrition guidance to help you feel your best and achieve your goals.</p></blockquote>
+            <figcaption>— Raizy W</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="3 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Ylana’s holistic approach to fitness and wellbeing is like nothing I’ve experienced before. It’s always balanced and truly individualized. I deeply appreciate her extensive knowledge and the way she brings it down to earth through her work. Just chatting with her during sessions alone has been so pleasant.</p></blockquote>
+            <figcaption>— Esther J</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="4 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Ylana’s extensive knowledge in nutrition and supplementals has taken my health to new heights. Her insight and tips on adopting healthy eating habits has had a huge impact on my life! i am now a fully rejuvenated mother of 6!</p></blockquote>
+            <figcaption>— Ruchy F</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="5 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>My posture, mobility and strength have all improved dramatically since i started training with Ylana Her group fitness sessions are well structured and full of enthusiasm! Her knowledge in body awareness and strength brings out the very best in each participant! The variety of movements, workouts and stretches which she demonstrates leaves all her clients feeling strong and in shape!</p></blockquote>
+            <figcaption>— Rachel W</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="6 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>I’ve been training with Ylana for a good few years now, and I must say she is a trainer who wants her clients to develop and grow. One of her specialties is perfecting your form so you get the results you want. It's amazing to see how every session is spontaneous and her adjustments are customized to pregnancy or injury,<br>Her positive vibes and constant encouragement encourage everyone to feel comfortable to learn and reach their full potential, even when they are new at it. Her explanations are always clear!<br>Ylana’s training sessions are the best gift of self-care I’ve ever gotten myself.</p></blockquote>
+            <figcaption>— Tila J</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="7 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>It's a fantastic experience working out with Ylana! Weights are heavy but atmosphere is fun and light! We build muscle, develop endurance and even learn healthy eating habits with all the bonus nutrition tips!</p></blockquote>
+            <figcaption>— Esther F</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="8 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>I never thought I would do one-on-one training, but it was the best decision I’ve ever made. .Ylana is very professional, confidential, and caring. I trust her completely. She’s always testing my limits and pushes me as much as I let myself be pushed. She helped me accomplish my goal of strengthening and straightening my back. We became personal friends and I am so grateful to her</p></blockquote>
+            <figcaption>— Rachel M</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="9 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Training with Ylana is like no nothing else!!<br>Her group fitness classes are intense..<br>It’s a tough workout!<br>Yet the atmosphere and her positivity and encouragement make the time pass so quickly!!<br>She trains every part of ur body!<br>She manages to incorporate your whole self in each class, with a different format each week!!<br>It’s my hi-light!!!</p></blockquote>
+            <figcaption>— Libby G</figcaption>
+          </figure>
+          <figure class="testimonial-card" role="group" aria-roledescription="slide" aria-label="10 of 10">
+            <span class="quote-mark" aria-hidden="true">“</span>
+            <blockquote><p>Starting my fitness journey at age 35 has completely transformed my life! Working with Ylana has been such a rewarding experience. I immediately noticed a huge boost in my daily energy levels, and exercising with her has made a incredible difference during my pregnancy and delivery. Beyond the amazing workouts, I love how she seamlessly weaves in valuable nutrition and wellness tips throughout our sessions. Her classes are engaging, supportive, and something I really look forward to every week!</p></blockquote>
+            <figcaption>— Esty F</figcaption>
+          </figure>
+          </div>
+          <p class="testimonial-hint">Swipe or scroll to explore all 10 stories.</p>
         </div>
       </div>
     </section>
