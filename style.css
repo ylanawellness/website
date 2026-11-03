@@ -431,3 +431,43 @@ h1 span { color: var(--sage); }
 @media (max-width: 560px) {
   .supplement-visual { aspect-ratio: 1.5; }
 }
+
+
+/* A smaller homepage image with room around its curved frame. */
+.hero-visual {
+  position: absolute;
+  top: 24px;
+  right: max(32px, calc((100% - 1120px) / 2));
+  width: min(41%, 560px);
+  aspect-ratio: 4 / 5;
+}
+.hero-visual .hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.hero-visual .hero-branch {
+  left: -54px;
+  right: auto;
+  bottom: -4px;
+  width: 110px;
+  height: 270px;
+}
+@media (max-width: 800px) {
+  .hero-visual { width: 37%; }
+  .hero-visual .hero-branch { left: -35px; width: 70px; height: 210px; }
+}
+@media (max-width: 560px) {
+  .hero-visual {
+    position: relative;
+    order: 1;
+    top: auto;
+    right: auto;
+    width: min(72%, 300px);
+    aspect-ratio: 1;
+    margin: 0 auto 32px;
+  }
+  .hero-visual .hero-branch { left: auto; right: -20px; width: 80px; height: 190px; }
+}
